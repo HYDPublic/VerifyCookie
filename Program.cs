@@ -1,8 +1,9 @@
-﻿using CommandLine;
+using CommandLine;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace VerifyCookie
     {
         static async Task VerifyCookie(string url, HttpTransportType transportType, bool addHandler)
         {
+            var cookies = new CookieContainer();
             var httpClientHandler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
                 MaxConnectionsPerServer = 200000,
-                MaxAutomaticRedirections = 200000
+                MaxAutomaticRedirections = 200000,
+                CookieContainer = cookies,
             };
             var hubConnectionBuilder = new HubConnectionBuilder()
                 .ConfigureLogging(logging =>
@@ -30,6 +33,8 @@ namespace VerifyCookie
                     {
                         httpConnectionOptions.HttpMessageHandlerFactory = _ => httpClientHandler;
                     }
+
+                    httpConnectionOptions.Cookies = cookies;
                     httpConnectionOptions.Transports = transportType;
                     httpConnectionOptions.CloseTimeout = TimeSpan.FromMinutes(100);
                 });
