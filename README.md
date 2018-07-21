@@ -1,6 +1,7 @@
 # This sample demonstrates how to reproduce the cookie missing issue when using Websockets. If HttpHandler is used, the cookie is missed, otherwise, it does not miss.
 
 * Cookie is not missing for the following command
+
 `dotnet run --hub "http://signalrlinux3.southeastasia.cloudapp.azure.com:5050/signalrbench" --useHandler false`
 
 `E:\home\Work\VerifyCookie>dotnet run --hub "http://signalrlinux3.southeastasia.cloudapp.azure.com:5050/signalrbench" --useHandler false
@@ -16,6 +17,7 @@ receive 5 1532168527250
 Waiting for result`
 
 * Cookie is missing for the following command
+
 `dotnet run --hub "http://signalrlinux3.southeastasia.cloudapp.azure.com:5050/signalrbench" --useHandler true`
 
 `E:\home\Work\VerifyCookie>dotnet run --hub "http://signalrlinux3.southeastasia.cloudapp.azure.com:5050/signalrbench" --useHandler true
